@@ -1,4 +1,4 @@
-/**
+/*
  * LightningChartJS example for rendering a 'vertical bar chart' using user-side logic as there is no dedicated Chart type for Bars, yet.
  */
 // Import LightningChartJS
@@ -50,11 +50,12 @@ let barChart
         // cursor
         //#region
         // Show band using Rectangle series.
-        const band = chart.addRectangleSeries().setCursorEnabled(false).add({ x: 0, y: 0, width: 0, height: 0 })
-            .setFillStyle(new SolidFill().setColor(ColorRGBA(255, 255, 255, 50)))
-            .setStrokeStyle(emptyLine)
+        const band = chart.addRectangleSeries()
             .setMouseInteractions(false)
-            .dispose()
+            .setCursorEnabled(false).add({ x: 0, y: 0, width: 0, height: 0 })
+                .setFillStyle(new SolidFill().setColor(ColorRGBA(255, 255, 255, 50)))
+                .setStrokeStyle(emptyLine)
+                .dispose()
         // Modify AutoCursor.
         chart.setAutoCursor(cursor => cursor
             .disposePointMarker()
