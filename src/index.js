@@ -135,7 +135,7 @@ let barChart
          * @param entry Single bar data.
          */
         const add = (entry) => {
-            // Create rect dimentions.
+            // Create rect dimensions.
             const rectDimensions = {
                 x: x - figureThickness,
                 y: 0,
