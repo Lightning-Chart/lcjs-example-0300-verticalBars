@@ -53,9 +53,9 @@ let barChart
         const band = chart.addRectangleSeries()
             .setMouseInteractions(false)
             .setCursorEnabled(false).add({ x: 0, y: 0, width: 0, height: 0 })
-                .setFillStyle(new SolidFill().setColor(ColorRGBA(255, 255, 255, 50)))
-                .setStrokeStyle(emptyLine)
-                .dispose()
+            .setFillStyle(new SolidFill().setColor(ColorRGBA(255, 255, 255, 50)))
+            .setStrokeStyle(emptyLine)
+            .dispose()
         // Modify AutoCursor.
         chart.setAutoCursor(cursor => cursor
             .disposePointMarker()
