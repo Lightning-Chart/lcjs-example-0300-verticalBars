@@ -9,6 +9,7 @@ const {
     lightningChart,
     AxisScrollStrategies,
     SolidFill,
+    SolidLine,
     ColorRGBA,
     emptyLine,
     emptyFill,
@@ -113,6 +114,13 @@ let barChart
             .setTitle('(%)')
             .setMouseInteractions(false)
             .setScrollStrategy(AxisScrollStrategies.fitting)
+
+        //Add middle line
+        const constantLine = axisY.addConstantLine()
+        constantLine.setValue(0)
+            .setMouseInteractions(false)
+            .setStrokeStyle(new SolidLine(
+                { thickness: 2, fillStyle: new SolidFill({ color: ColorRGBA(125,125,125) }) }))
 
         /**
          * Add multiple bars.
