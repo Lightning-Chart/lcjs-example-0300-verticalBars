@@ -15,7 +15,8 @@ const {
     emptyFill,
     AutoCursorModes,
     UIOrigins,
-    emptyTick
+    AxisTickStrategies,
+    Themes
 } = lcjs
 
 const lc = lightningChart()
@@ -107,7 +108,7 @@ let barChart
             .setMouseInteractions(false)
             .setScrollStrategy(undefined)
             // Disable default ticks.
-            .setTickStyle(emptyTick)
+            .setTickStrategy(AxisTickStrategies.Empty)
 
         // Y-axis of the series
         const axisY = chart.getDefaultAxisY()
@@ -120,7 +121,7 @@ let barChart
         constantLine.setValue(0)
             .setMouseInteractions(false)
             .setStrokeStyle(new SolidLine(
-                { thickness: 2, fillStyle: new SolidFill({ color: ColorRGBA(125,125,125) }) }))
+                { thickness: 2, fillStyle: new SolidFill({ color: ColorRGBA(125, 125, 125) }) }))
 
         /**
          * Add multiple bars.
@@ -172,6 +173,7 @@ let barChart
                         .setFillStyle(emptyFill)
                         .setStrokeStyle(emptyLine)
                     )
+                    .setTextFillStyle(new SolidFill({ color: ColorRGBA(170, 170, 170) }))
                 )
             x += figureThickness + figureGap
             // Return data-structure with both original 'entry' and the rectangle figure that represents it.
@@ -190,7 +192,9 @@ let barChart
 }
 
 // Use bar chart interface to construct series.
-const chart = barChart()
+const chart = barChart({
+    // theme: Themes.dark
+})
 // Add multiple bars at once.
 chart.addValues([
     { category: '', value: 20 },
