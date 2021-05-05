@@ -16,6 +16,7 @@ const {
     AutoCursorModes,
     UIOrigins,
     AxisTickStrategies,
+    UIElementBuilders,
     Themes
 } = lcjs
 
@@ -71,7 +72,7 @@ let barChart
             })
         )
         // Change how series parses its data-points using series method.
-        rectangles.setResultTableFormatter((builder, series, figure) => {
+        rectangles.setCursorResultTableFormatter((builder, series, figure) => {
             let counter = 0
             // Find cached entry for the figure.
             const entry = bars.find((bar, index) => {
@@ -163,18 +164,15 @@ let barChart
             )
 
             // Add custom tick, more like categorical axis.
-            axisX.addCustomTick()
-                .setValue(x - figureGap)
-                .setGridStrokeLength(0)
-                .setTextFormatter(_ => entry.category)
-                .setMarker(marker => marker
-                    .setPadding(4)
-                    .setBackground((background) => background
-                        .setFillStyle(emptyFill)
-                        .setStrokeStyle(emptyLine)
+            if (entry.category.length > 0) {
+                axisX.addCustomTick(UIElementBuilders.AxisTick)
+                    .setValue(x - figureGap)
+                    .setGridStrokeLength(0)
+                    .setTextFormatter(_ => entry.category)
+                    .setMarker(marker => marker
+                        .setTextFillStyle(new SolidFill({ color: ColorRGBA(170, 170, 170) }))
                     )
-                    .setTextFillStyle(new SolidFill({ color: ColorRGBA(170, 170, 170) }))
-                )
+            }
             x += figureThickness + figureGap
             // Return data-structure with both original 'entry' and the rectangle figure that represents it.
             return {
