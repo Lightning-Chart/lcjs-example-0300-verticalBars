@@ -1,6 +1,6 @@
-# Vertical Bars
+# JavaScript Vertical Bar Chart
 
-![Vertical Bars](verticalBars.png)
+![JavaScript Vertical Bar Chart](verticalBars.png)
 
 This demo application belongs to the set of examples for LightningChart JS, data visualization library for JavaScript.
 
