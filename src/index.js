@@ -12,7 +12,6 @@ const {
     SolidLine,
     ColorRGBA,
     emptyLine,
-    emptyFill,
     AutoCursorModes,
     UIOrigins,
     AxisTickStrategies,
@@ -191,7 +190,7 @@ let barChart
 
 // Use bar chart interface to construct series.
 const chart = barChart({
-    // theme: Themes.dark
+    // theme: Themes.darkGold
 })
 // Add multiple bars at once.
 chart.addValues([
