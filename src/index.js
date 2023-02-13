@@ -16,15 +16,12 @@ const {
     UIOrigins,
     AxisTickStrategies,
     UIElementBuilders,
-    Themes
+    Themes,
 } = lcjs
 
 const lc = lightningChart()
 
-const months = [
-    'January', 'February', 'March', 'April', 'May', 'June', 'July',
-    'August', 'September', 'October', 'November', 'December'
-]
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 // Define an interface for creating vertical bars.
 let barChart
 {
@@ -36,11 +33,12 @@ let barChart
 
         let x = 0
         const figureThickness = 10
-        const figureGap = figureThickness * .5
+        const figureGap = figureThickness * 0.5
         const bars = []
 
         // Create a XY-Chart and add a RectSeries to it for rendering rectangles.
-        const chart = lc.ChartXY(options)
+        const chart = lc
+            .ChartXY(options)
             .setTitle('Changes in electricity usage between 2017 and 2018')
             .setAutoCursorMode(AutoCursorModes.onHover)
             // Disable mouse interactions (e.g. zooming and panning) of plotting area
@@ -52,58 +50,42 @@ let barChart
         // cursor
         //#region
         // Show band using Rectangle series.
-        const band = chart.addRectangleSeries()
+        const band = chart
+            .addRectangleSeries()
             .setMouseInteractions(false)
-            .setCursorEnabled(false).add({ x: 0, y: 0, width: 0, height: 0 })
+            .setCursorEnabled(false)
+            .add({ x: 0, y: 0, width: 0, height: 0 })
             .setFillStyle(new SolidFill().setColor(ColorRGBA(255, 255, 255, 50)))
             .setStrokeStyle(emptyLine)
-            .dispose()
+            .setVisible(false)
         // Modify AutoCursor.
-        chart.setAutoCursor(cursor => cursor
-            .disposePointMarker()
-            .disposeTickMarkerX()
-            .disposeTickMarkerY()
-            .setGridStrokeXStyle(emptyLine)
-            .setGridStrokeYStyle(emptyLine)
-            .setResultTable((table) => {
-                table
-                    .setOrigin(UIOrigins.CenterBottom)
-            })
+        chart.setAutoCursor((cursor) =>
+            cursor
+                .setPointMarkerVisible(false)
+                .setTickMarkerXVisible(false)
+                .setTickMarkerYVisible(false)
+                .setGridStrokeXStyle(emptyLine)
+                .setGridStrokeYStyle(emptyLine)
+                .setResultTable((table) => {
+                    table.setOrigin(UIOrigins.CenterBottom)
+                }),
         )
         // Change how series parses its data-points using series method.
         rectangles.setCursorResultTableFormatter((builder, series, figure) => {
             let counter = 0
             // Find cached entry for the figure.
             const entry = bars.find((bar, index) => {
-                counter = index;
+                counter = index
                 return bar.rect == figure
             }).entry
             // Parse result table content from values of 'entry'.
-            return builder
-                .addRow(`Month: ${months[counter]}`)
-                .addRow(`Value: ${entry.value}%`)
-        })
-        // Apply cursor logic using series.onHover method
-        rectangles.onHover((_, point) => {
-            if (point) {
-                const figure = point.figure
-                const dimensions = figure.getDimensionsPositionAndSize()
-                // Show band.
-                band
-                    .setDimensions({
-                        x: dimensions.x - figureGap * .5,
-                        y: figure.scale.y.getInnerStart(),
-                        width: dimensions.width + figureGap,
-                        height: figure.scale.y.getInnerInterval()
-                    })
-                    .restore()
-            } else
-                band.dispose()
+            return builder.addRow(`Month: ${months[counter]}`).addRow(`Value: ${entry.value}%`)
         })
         //#endregion
 
         // X-axis of the series
-        const axisX = chart.getDefaultAxisX()
+        const axisX = chart
+            .getDefaultAxisX()
             .setTitle('Quarter')
             .setMouseInteractions(false)
             .setScrollStrategy(undefined)
@@ -111,17 +93,14 @@ let barChart
             .setTickStrategy(AxisTickStrategies.Empty)
 
         // Y-axis of the series
-        const axisY = chart.getDefaultAxisY()
-            .setTitle('(%)')
-            .setMouseInteractions(false)
-            .setScrollStrategy(AxisScrollStrategies.fitting)
+        const axisY = chart.getDefaultAxisY().setTitle('(%)').setMouseInteractions(false).setScrollStrategy(AxisScrollStrategies.fitting)
 
         //Add middle line
         const constantLine = axisY.addConstantLine()
-        constantLine.setValue(0)
+        constantLine
+            .setValue(0)
             .setMouseInteractions(false)
-            .setStrokeStyle(new SolidLine(
-                { thickness: 2, fillStyle: new SolidFill({ color: ColorRGBA(125, 125, 125) }) }))
+            .setStrokeStyle(new SolidLine({ thickness: 2, fillStyle: new SolidFill({ color: ColorRGBA(125, 125, 125) }) }))
 
         /**
          * Add multiple bars.
@@ -149,41 +128,55 @@ let barChart
                 x: x - figureThickness,
                 y: 0,
                 width: figureThickness,
-                height: entry.value
+                height: entry.value,
             }
             // Add rect to the series.
             const rect = rectangles.add(rectDimensions)
             // Set individual color for the bar.
-            rect.setFillStyle(entry.value > 0 ? flatRedStyle : flatBlueStyle)
+            rect.setFillStyle(entry.value > 0 ? flatRedStyle : flatBlueStyle).setStrokeStyle(emptyLine)
+
+            // Show cursor band when mouse is above figure.
+            rect.onMouseEnter(() => {
+                const dimensions = rect.getDimensionsPositionAndSize()
+                // Show band.
+                band.setDimensions({
+                    x: dimensions.x - figureGap * 0.5,
+                    y: rect.scale.y.getInnerStart(),
+                    width: dimensions.width + figureGap,
+                    height: rect.scale.y.getInnerInterval(),
+                }).setVisible(true)
+            })
+            rect.onMouseLeave(() => {
+                band.setVisible(false)
+            })
 
             // Set view manually.
-            axisX.setInterval(
-                -(figureThickness + figureGap),
-                x + figureGap
-            )
-
+            axisX.setInterval({
+                start: -(figureThickness + figureGap),
+                end: x + figureGap,
+                stopAxisAfter: false,
+            })
             // Add custom tick, more like categorical axis.
             if (entry.category.length > 0) {
-                axisX.addCustomTick(UIElementBuilders.AxisTick)
+                axisX
+                    .addCustomTick()
                     .setValue(x - figureGap)
                     .setGridStrokeLength(0)
-                    .setTextFormatter(_ => entry.category)
-                    .setMarker(marker => marker
-                        .setTextFillStyle(new SolidFill({ color: ColorRGBA(170, 170, 170) }))
-                    )
+                    .setTextFormatter((_) => entry.category)
+                    .setMarker((marker) => marker.setTextFillStyle(new SolidFill({ color: ColorRGBA(170, 170, 170) })))
             }
             x += figureThickness + figureGap
             // Return data-structure with both original 'entry' and the rectangle figure that represents it.
             return {
                 entry,
-                rect
+                rect,
             }
         }
 
         // Return public methods of a bar chart interface.
         return {
             addValue,
-            addValues
+            addValues,
         }
     }
 }
@@ -205,5 +198,5 @@ chart.addValues([
     { category: '', value: 17 },
     { category: '', value: 24 },
     { category: 'Q4', value: -29 },
-    { category: '', value: 15 }
+    { category: '', value: 15 },
 ])
