@@ -21,39 +21,37 @@ The demo can be used as an example or a seed project. Local execution requires t
 
 _Also known as Bar Graph, Column Chart or Column Graph_
 
-This example shows the creation of a column chart made on user side by utilizing RectangleSeries which displays data as vertical bars. Bar Charts show discrete numerical comparisons across categories, where the value represents the height of a bar.
+This example shows the most basic usage of LightningChart JS `BarChart`.
+Bar Charts show discrete numerical comparisons across categories, where the value represents the height of a bar.
+LightningChart JS includes a very simple high level feature for creating interactive Bar Charts and supplying them with categorical data:
 
-The following code below shows the creation of a Vertical Bar Chart using a pre-defined interface. Moreover, the current interface allows visualizing columns with negative values.
-
-The bar series accepts points in format `{ category: string, value: number }`. Any number of points can be added with a single call.
-
-```javascript
-// Create Chart.
-const chart = barChart()
-
-// Add bars.
-chart.addValues([
-    { category: 'A', value: 20 },
-    { category: 'B', value: -30 },
-])
+```ts
+const barChart = lightningChart().BarChart()
+const data = [
+    { category: 'Jan', value: 20 },
+    { category: 'Feb', value: 20 },
+    { category: 'Mar', value: -25 },
+    { category: 'Apr', value: 40 },
+    { category: 'May', value: 28 },
+    { category: 'Jun', value: -23 },
+    { category: 'Jul', value: -40 },
+    { category: 'Aug', value: 35 },
+    { category: 'Sep', value: 17 },
+    { category: 'Oct', value: 24 },
+    { category: 'Nov', value: -29 },
+    { category: 'Dec', value: 15 },
+]
+barChart.setData(data)
 ```
 
-The actual Bar Chart logic just serves to provide a starting point for users to create their own API based on their needs and preferences.
+[More Bar Chart examples](https://lightningchart.com/lightningchart-js-interactive-examples/search.html?t=bar).
 
 
 ## API Links
 
-* [XY cartesian chart]
-* [Rectangle series]
-* [Solid FillStyle]
-* [Empty FillStyle]
-* [Solid LineStyle]
-* [Empty LineStyle]
-* [RGBA color factory]
-* [cursor modes]
-* [Axis]
-* [Scroll strategies]
-* [UI position origins]
+* [Bar chart]
+* [Bar chart Value Axis]
+* [Bar chart Category Axis]
 
 
 ## Support
@@ -77,15 +75,7 @@ Direct developer email support can be purchased through a [Support Plan][4] or b
 © LightningChart Ltd 2009-2022. All rights reserved.
 
 
-[XY cartesian chart]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/classes/ChartXY.html
-[Rectangle series]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/classes/RectangleSeries.html
-[Solid FillStyle]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/classes/SolidFill.html
-[Empty FillStyle]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/variables/emptyFill-1.html
-[Solid LineStyle]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/classes/SolidLine.html
-[Empty LineStyle]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/variables/emptyLine.html
-[RGBA color factory]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/functions/ColorRGBA.html
-[cursor modes]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/enums/AutoCursorModes.html
-[Axis]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/classes/Axis.html
-[Scroll strategies]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/variables/AxisScrollStrategies.html
-[UI position origins]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/variables/UIOrigins.html
+[Bar chart]: https://lightningchart.com/js-charts/api-documentation/v4.2.0/interfaces/BarChart.html
+[Bar chart Value Axis]: https://lightningchart.com/js-charts/api-documentation/v4.2.0/classes/BarChartValueAxis.html
+[Bar chart Category Axis]: https://lightningchart.com/js-charts/api-documentation/v4.2.0/classes/BarChartCategoryAxis.html
 
