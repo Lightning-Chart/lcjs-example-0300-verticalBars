@@ -8,7 +8,7 @@ const lc = lightningChart()
 const barChart = lc
     .BarChart({
         type: BarChartTypes.Vertical,
-        // theme: Themes.darkGold,
+        theme: Themes[new URLSearchParams(window.location.search).get('theme') || 'darkGold'] || undefined,,
     })
     .setSorting(BarChartSorting.Disabled)
 
