@@ -4,7 +4,9 @@
 const lcjs = require('@arction/lcjs')
 const { lightningChart, BarChartTypes, BarChartSorting, SolidFill, Themes } = lcjs
 
-const lc = lightningChart()
+const lc = lightningChart({
+            resourcesBaseUrl: new URL(document.head.baseURI).origin + new URL(document.head.baseURI).pathname + 'resources/',
+        })
 const barChart = lc
     .BarChart({
         type: BarChartTypes.Vertical,
