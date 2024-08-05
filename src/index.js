@@ -1,7 +1,7 @@
 /**
  * Basic example of LightningChart JS Bar Charts.
  */
-const lcjs = require('@arction/lcjs')
+const lcjs = require('@lightningchart/lcjs')
 const { lightningChart, BarChartTypes, BarChartSorting, SolidFill, Themes } = lcjs
 
 const lc = lightningChart({
@@ -16,7 +16,7 @@ const barChart = lc
 
 const theme = barChart.getTheme()
 
-barChart.valueAxis.setTitle('Electricity consumption change (%)')
+barChart.valueAxis.setTitle('Electricity consumption change').setUnits('%')
 
 const data = [
     { category: 'Jan', value: 20 },
