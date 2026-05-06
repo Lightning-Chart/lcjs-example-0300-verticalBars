@@ -19,6 +19,9 @@ const barChart = lc
 textRenderer: window.lcjsSmallView ? lcjs.htmlTextRenderer : undefined,
     })
     .setSorting(BarChartSorting.Disabled)
+    .setValueLabels({
+        position: 'inside-bar'
+    })
 
 const theme = barChart.getTheme()
 
